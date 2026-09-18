@@ -4,6 +4,8 @@ import { usePageFlow } from "./hooks/usePageFlow";
 import ExperienceShell from "./components/ExperienceShell.jsx";
 import OpeningPage from "./pages/OpeningPage.jsx";
 import AnnuPage from "./pages/AnnuPage.jsx";
+import CakePage from "./pages/CakePage.jsx";
+import MemoriesPage from "./pages/MemoriesPage.jsx";
 import { SectionPlaceholder } from "./components/ui.jsx";
 
 function PageContent({ page, hasEntered, onEnter, onNext, onReplay }) {
@@ -20,6 +22,14 @@ function PageContent({ page, hasEntered, onEnter, onNext, onReplay }) {
 
   if (page.id === "annu") {
     return <AnnuPage page={page} />;
+  }
+
+  if (page.id === "cake") {
+    return <CakePage page={page} onNext={onNext} />;
+  }
+
+  if (page.id === "memories") {
+    return <MemoriesPage page={page} />;
   }
 
   return <SectionPlaceholder page={page} onReplay={onReplay} />;
