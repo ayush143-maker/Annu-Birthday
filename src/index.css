@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply overflow-hidden bg-paper-glow font-body text-cocoa antialiased;
+  }
+
+  ::selection {
+    @apply bg-gold/25;
+  }
+
+  img {
+    @apply select-none;
+  }
+}
+
+@layer components {
+  .shell-screen {
+    @apply relative flex h-[100dvh] min-h-screen w-full flex-col overflow-hidden;
+  }
+
+  .page-label {
+    @apply text-[11px] uppercase tracking-widest2 text-mutedBrown/80;
+  }
+
+  .display-heading {
+    @apply font-serifDisplay font-semibold text-cocoa;
+  }
+
+  .paper-card {
+    @apply rounded-[28px] border border-cream/70 bg-cream/70 shadow-paper backdrop-blur-[1px];
+  }
+
+  .hairline {
+    @apply h-px w-full;
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      rgba(200, 166, 107, 0.45),
+      transparent
+    );
+  }
+
+  .text-glow {
+    text-shadow:
+      0 0 18px rgba(200, 166, 107, 0.20),
+      0 0 46px rgba(200, 166, 107, 0.12),
+      0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+
+  .text-glow-soft {
+    text-shadow:
+      0 0 14px rgba(200, 166, 107, 0.16),
+      0 0 34px rgba(200, 166, 107, 0.08);
+  }
+
+  .svg-glow {
+    filter:
+      drop-shadow(0 0 10px rgba(200, 166, 107, 0.28))
+      drop-shadow(0 0 26px rgba(200, 166, 107, 0.14));
+  }
+
+  .ambient-glow {
+    filter: blur(48px);
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-glowPulse,
+  .animate-floatSoft,
+  .animate-shimmerSlow {
+    animation: none !important;
+  }
+}
