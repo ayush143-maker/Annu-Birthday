@@ -6,6 +6,8 @@ import OpeningPage from "./pages/OpeningPage.jsx";
 import AnnuPage from "./pages/AnnuPage.jsx";
 import CakePage from "./pages/CakePage.jsx";
 import MemoriesPage from "./pages/MemoriesPage.jsx";
+import SecretBoxPage from "./pages/SecretBoxPage.jsx";
+import LetterPage from "./pages/LetterPage.jsx";
 import { SectionPlaceholder } from "./components/ui.jsx";
 
 function PageContent({ page, hasEntered, onEnter, onNext, onReplay }) {
@@ -30,6 +32,14 @@ function PageContent({ page, hasEntered, onEnter, onNext, onReplay }) {
 
   if (page.id === "memories") {
     return <MemoriesPage page={page} />;
+  }
+
+  if (page.id === "secret-box") {
+    return <SecretBoxPage page={page} />;
+  }
+
+  if (page.id === "letter") {
+    return <LetterPage page={page} />;
   }
 
   return <SectionPlaceholder page={page} onReplay={onReplay} />;
