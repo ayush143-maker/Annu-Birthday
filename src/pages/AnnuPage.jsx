@@ -1,15 +1,12 @@
 import { siteContent } from "../data/content";
-import { PageLabel } from "../components/ui.jsx";
 import { DoodleUnderline } from "../components/doodles.jsx";
 import StackedCardCarousel from "../components/StackedCardCarousel.jsx";
 
 export default function AnnuPage({ page }) {
   return (
-    <div className="mx-auto flex h-full w-full max-w-5xl flex-col items-center justify-center gap-4 md:gap-6">
+    <div className="mx-auto flex h-full w-full max-w-5xl flex-col items-center justify-center gap-3 md:gap-5">
       <header className="text-center">
-        <PageLabel>{page.label}</PageLabel>
-
-        <h2 className="display-heading text-glow mt-2 text-4xl leading-tight md:text-6xl">
+        <h2 className="display-heading text-glow text-4xl leading-tight md:text-6xl">
           {page.title}
         </h2>
 
