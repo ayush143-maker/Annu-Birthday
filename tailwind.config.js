@@ -13,6 +13,9 @@ export default {
         sage: "#9CA88B",
         gold: "#C8A66B",
         softGold: "#E4CE9D",
+        powder: "#DCE7F2",
+        powderDeep: "#C7D6E8",
+        rose: "#C98A8A",
       },
       fontFamily: {
         serifDisplay: ['"Cormorant Garamond"', "Georgia", "serif"],
@@ -34,7 +37,9 @@ export default {
       animation: {
         glowPulse: "glowPulse 7s ease-in-out infinite",
         floatSoft: "floatSoft 9s ease-in-out infinite",
-        shimmerSlow: "shimmerSlow 12s linear infinite",
+        beat: "beat 1.7s ease-in-out infinite",
+        flicker: "flicker 1.1s ease-in-out infinite",
+        popIn: "popIn 420ms cubic-bezier(0.22,0.61,0.36,1) both",
       },
       keyframes: {
         glowPulse: {
@@ -45,9 +50,21 @@ export default {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-7px)" },
         },
-        shimmerSlow: {
-          "0%": { backgroundPosition: "0% 50%" },
-          "100%": { backgroundPosition: "200% 50%" },
+        beat: {
+          "0%, 100%": { transform: "scale(1)" },
+          "12%": { transform: "scale(1.12)" },
+          "24%": { transform: "scale(1)" },
+          "36%": { transform: "scale(1.07)" },
+          "48%": { transform: "scale(1)" },
+        },
+        flicker: {
+          "0%, 100%": { opacity: "1", transform: "scaleY(1)" },
+          "50%": { opacity: "0.8", transform: "scaleY(0.93)" },
+        },
+        popIn: {
+          "0%": { transform: "scale(0.6)", opacity: "0" },
+          "70%": { transform: "scale(1.05)", opacity: "1" },
+          "100%": { transform: "scale(1)", opacity: "1" },
         },
       },
     },
