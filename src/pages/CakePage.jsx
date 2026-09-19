@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { siteContent } from "../data/content";
-import { GlowButton, HandwrittenNote, PageLabel } from "../components/ui.jsx";
-import { IconArrowRight } from "../components/icons.jsx";
+import { GlowButton, HandwrittenNote } from "../components/ui.jsx";
 import { DoodleUnderline } from "../components/doodles.jsx";
 import CakeScene from "../components/CakeScene.jsx";
 
@@ -27,11 +26,9 @@ export default function CakePage({ page, onNext, onConfetti }) {
   };
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-5xl flex-col items-center justify-center gap-4 text-center md:gap-6">
+    <div className="mx-auto flex h-full w-full max-w-5xl flex-col items-center justify-center gap-3 text-center md:gap-5">
       <header>
-        <PageLabel>{page.label}</PageLabel>
-
-        <h2 className="display-heading text-glow mt-2 text-4xl leading-tight md:text-6xl">
+        <h2 className="display-heading text-glow text-4xl leading-tight md:text-6xl">
           {page.title}
         </h2>
 
@@ -48,7 +45,7 @@ export default function CakePage({ page, onNext, onConfetti }) {
         onTap={lightCandles}
       />
 
-      <div className="flex min-h-[110px] flex-col items-center justify-center gap-3">
+      <div className="flex min-h-[92px] flex-col items-center justify-center gap-2">
         {phase === "idle" ? (
           <p className="animate-pulse text-xs uppercase tracking-widest2 text-mutedBrown/75">
             {siteContent.cake.lightCta}
@@ -68,13 +65,6 @@ export default function CakePage({ page, onNext, onConfetti }) {
             <p className="font-hand text-lg text-mutedBrown/80">
               {siteContent.cake.blowNote}
             </p>
-
-            <GlowButton
-              onClick={onNext}
-              icon={<IconArrowRight className="h-4 w-4" />}
-            >
-              Continue
-            </GlowButton>
           </>
         ) : null}
       </div>
