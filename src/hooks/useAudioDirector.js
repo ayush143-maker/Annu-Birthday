@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { siteContent } from "../data/content";
 
 const DEFAULT_VOLUME = 0.88;
-const FADE_DURATION = 900;
+const FADE_DURATION = 650;
 
 export function useAudioDirector() {
   const playersRef = useRef(new Map());
@@ -49,7 +49,7 @@ export function useAudioDirector() {
     (trackId) => {
       if (!playersRef.current.has(trackId)) {
         const track = getTrack(trackId);
-        if (!track) {
+        if (!track || !track.src) {
           return null;
         }
         playersRef.current.set(trackId, createPlayer(track));
@@ -116,10 +116,11 @@ export function useAudioDirector() {
 
       const start = performance.now();
       const from = player.volume;
+      const target = Math.min(Math.max(targetVolume, 0), 1);
 
       const step = (now) => {
         const progress = Math.min(1, (now - start) / duration);
-        player.volume = from + (targetVolume - from) * progress;
+        player.volume = from + (target - from) * progress;
 
         if (progress < 1) {
           fadesRef.current.set(trackId, requestAnimationFrame(step));
