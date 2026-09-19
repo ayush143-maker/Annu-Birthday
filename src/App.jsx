@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { siteContent } from "./data/content";
 import { useAudioDirector } from "./hooks/useAudioDirector";
 import { usePageFlow } from "./hooks/usePageFlow";
 import ExperienceShell from "./components/ExperienceShell.jsx";
@@ -50,6 +51,23 @@ export default function App() {
   const [confettiBurst, setConfettiBurst] = useState(0);
 
   const { page } = flow;
+
+  useEffect(() => {
+    const sources = [
+      ...siteContent.annu.images,
+      ...siteContent.memories.images,
+      siteContent.finale.photo,
+    ];
+
+    sources.forEach((item) => {
+      if (!item || !item.src) {
+        return;
+      }
+
+      const image = new Image();
+      image.src = item.src;
+    });
+  }, []);
 
   const fireConfetti = useCallback(() => {
     setConfettiBurst((value) => value + 1);
