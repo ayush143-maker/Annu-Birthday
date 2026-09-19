@@ -36,7 +36,6 @@ export default function PolaroidFrame({
           <img
             src={image.src}
             alt={image.alt}
-            loading="lazy"
             onError={() => setFailed(true)}
             className="h-full w-full object-cover"
           />
