@@ -1,5 +1,4 @@
 import { siteContent } from "../data/content";
-import { PageLabel } from "../components/ui.jsx";
 import { IconLock } from "../components/icons.jsx";
 import { DoodleStar, DoodleUnderline } from "../components/doodles.jsx";
 import PolaroidFrame from "../components/PolaroidFrame.jsx";
@@ -9,8 +8,6 @@ export default function FinalePage({ page, onReplay }) {
     <div className="relative mx-auto flex h-full w-full max-w-4xl flex-col items-center justify-center gap-3 text-center md:gap-5">
       <DoodleStar className="absolute left-[8%] top-[12%] h-5 w-5 text-sage/60 animate-floatSoft" />
       <DoodleStar className="absolute bottom-[16%] right-[10%] h-6 w-6 text-gold/60 animate-floatSoft" />
-
-      <PageLabel>{page.label}</PageLabel>
 
       <h2 className="display-heading text-glow text-4xl leading-[1.05] md:text-6xl">
         {page.title}
@@ -26,7 +23,7 @@ export default function FinalePage({ page, onReplay }) {
       <PolaroidFrame
         image={siteContent.finale.photo}
         ratioClass="aspect-[3/4]"
-        className="mt-1 w-[36vw] max-w-[180px] rotate-[2.5deg] md:max-w-[220px] md:w-[220px]"
+        className="mt-1 w-[36vw] max-w-[180px] rotate-[2.5deg] md:w-[220px] md:max-w-[220px]"
       />
 
       <p className="font-hand text-xl text-mutedBrown md:text-2xl">
