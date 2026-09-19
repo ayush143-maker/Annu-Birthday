@@ -55,27 +55,12 @@
 
   .text-glow {
     text-shadow:
-      0 0 18px rgba(200, 166, 107, 0.20),
-      0 0 46px rgba(200, 166, 107, 0.12),
+      0 0 16px rgba(200, 166, 107, 0.16),
       0 1px 0 rgba(255, 255, 255, 0.45);
   }
 
-  .text-glow-strong {
-    text-shadow:
-      0 0 24px rgba(200, 166, 107, 0.26),
-      0 0 70px rgba(200, 166, 107, 0.14),
-      0 1px 0 rgba(255, 255, 255, 0.5);
-  }
-
   .svg-glow {
-    filter:
-      drop-shadow(0 0 10px rgba(200, 166, 107, 0.28))
-      drop-shadow(0 0 26px rgba(200, 166, 107, 0.14));
-  }
-
-  .ambient-glow {
-    filter: blur(48px);
-    opacity: 0.55;
+    filter: drop-shadow(0 0 8px rgba(200, 166, 107, 0.22));
   }
 
   .no-scrollbar {
@@ -85,6 +70,65 @@
 
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  .safe-top {
+    padding-top: max(0.9rem, env(safe-area-inset-top));
+  }
+
+  .safe-bottom {
+    padding-bottom: max(0.9rem, env(safe-area-inset-bottom));
+  }
+
+  .page-enter {
+    animation: pageIn 320ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  .capsule-next {
+    @apply inline-flex items-center gap-3 rounded-full border border-gold/40 bg-cocoa px-7 py-3.5 text-xs font-medium uppercase tracking-widest2 text-ivory shadow-paper transition active:scale-[0.97];
+  }
+
+  .snap-carousel {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .snap-card {
+    scroll-snap-align: center;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    top: -4%;
+    opacity: 0;
+    animation-name: confettiFall;
+    animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1);
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translate3d(0, -6vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift, 0px), 108vh, 0) rotate(var(--spin, 540deg));
+    opacity: 0.9;
   }
 }
 
