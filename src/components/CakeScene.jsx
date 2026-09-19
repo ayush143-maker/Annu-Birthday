@@ -4,12 +4,12 @@ export default function CakeScene({ lit = false, blew = false, onTap }) {
       type="button"
       onClick={onTap}
       aria-label={lit ? "Make a wish" : "Light the candles"}
-      className="relative mx-auto block w-full max-w-[290px] transition active:scale-[0.98] md:max-w-[330px]"
+      className="relative mx-auto block w-full max-w-[230px] transition active:scale-[0.98] md:max-w-[310px]"
     >
       <div
         aria-hidden="true"
-        className={`pointer-events-none absolute inset-x-8 bottom-4 h-16 rounded-full bg-gold/25 transition-opacity duration-700 ${
-          lit ? "opacity-100" : "opacity-0"
+        className={`pointer-events-none absolute inset-x-6 top-1/2 h-24 -translate-y-1/2 rounded-full bg-gold/20 blur-2xl transition-opacity duration-700 ${
+          lit ? "opacity-90" : "opacity-0"
         }`}
       />
 
@@ -45,7 +45,7 @@ export default function CakeScene({ lit = false, blew = false, onTap }) {
           </linearGradient>
         </defs>
 
-        <ellipse cx="180" cy="344" rx="52" ry="10" fill="#DCCDB6" opacity="0.7" />
+        <ellipse cx="180" cy="344" rx="46" ry="8" fill="#DCCDB6" opacity="0.45" />
         <path
           d="M168 306h24v30c0 4-5 6-12 6s-12-2-12-6z"
           fill="#E9DFD0"
@@ -55,8 +55,8 @@ export default function CakeScene({ lit = false, blew = false, onTap }) {
         <ellipse
           cx="180"
           cy="304"
-          rx="118"
-          ry="14"
+          rx="112"
+          ry="12"
           fill="#F8F1E5"
           stroke="#C8A66B"
           strokeOpacity="0.35"
@@ -76,16 +76,14 @@ export default function CakeScene({ lit = false, blew = false, onTap }) {
           d="M84 212h192v10q-12 18-24 0q-12 18-24 0q-12 18-24 0q-12 18-24 0q-12 18-24 0q-12 18-24 0q-12 18-24 0q-12 18-24 0z"
           fill="url(#tier-icing)"
         />
-        <g fill="#C98A8A" opacity="0.5">
-          <circle cx="116" cy="262" r="3.4" />
-          <circle cx="156" cy="274" r="3" />
-          <circle cx="204" cy="272" r="3.4" />
-          <circle cx="244" cy="260" r="3" />
+        <g fill="#C98A8A" opacity="0.45">
+          <circle cx="126" cy="266" r="3" />
+          <circle cx="180" cy="276" r="2.6" />
+          <circle cx="234" cy="264" r="3" />
         </g>
-        <g fill="#9CA88B" opacity="0.45">
-          <circle cx="136" cy="282" r="2.6" />
-          <circle cx="180" cy="258" r="2.6" />
-          <circle cx="224" cy="284" r="2.6" />
+        <g fill="#9CA88B" opacity="0.4">
+          <circle cx="152" cy="282" r="2.4" />
+          <circle cx="208" cy="284" r="2.4" />
         </g>
 
         <rect
@@ -101,13 +99,6 @@ export default function CakeScene({ lit = false, blew = false, onTap }) {
         <path
           d="M116 152h128v9q-16 18-32 0q-16 18-32 0q-16 18-32 0q-16 18-32 0z"
           fill="url(#tier-icing)"
-        />
-        <path
-          d="M180 196c-6-4.4-10-8-10-12.2 0-3 2.3-5.3 5.2-5.3 1.9 0 3.6.9 4.8 2.4 1.2-1.5 2.9-2.4 4.8-2.4 2.9 0 5.2 2.3 5.2 5.3 0 4.2-4 7.8-10 12.2z"
-          stroke="#C98A8A"
-          strokeOpacity="0.75"
-          strokeWidth="1.3"
-          fill="none"
         />
 
         <rect x="149" y="112" width="7" height="42" rx="3.5" fill="#C98A8A" />
