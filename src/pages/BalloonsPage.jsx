@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { siteContent } from "../data/content";
-import { CaptionTag, HandwrittenNote, PageLabel } from "../components/ui.jsx";
+import { CaptionTag, HandwrittenNote } from "../components/ui.jsx";
 import { DoodleStar } from "../components/doodles.jsx";
 
 const BALLOON_COLORS = [
@@ -61,9 +61,7 @@ export default function BalloonsPage({ page, onConfetti }) {
   return (
     <div className="mx-auto flex h-full w-full max-w-4xl flex-col items-center justify-center gap-4 md:gap-6">
       <header className="text-center">
-        <PageLabel>{page.label}</PageLabel>
-
-        <h2 className="display-heading text-glow mt-2 text-4xl leading-tight md:text-6xl">
+        <h2 className="display-heading text-glow text-4xl leading-tight md:text-6xl">
           {page.title}
         </h2>
 
