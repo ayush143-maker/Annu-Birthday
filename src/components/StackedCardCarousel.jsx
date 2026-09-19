@@ -51,8 +51,8 @@ export default function StackedCardCarousel({ images = [] }) {
   };
 
   return (
-    <div data-no-page-swipe className="mx-auto w-full max-w-[300px] md:max-w-[340px]">
-      <div className="relative h-[38vh] md:h-[50vh]">
+    <div data-no-page-swipe className="mx-auto w-full">
+      <div className="relative mx-auto aspect-[3/4] h-[38vh] md:h-[48vh]">
         {images.map((image, i) => {
           const pos = (i - index + count) % count;
           const isTop = pos === 0;
@@ -85,7 +85,6 @@ export default function StackedCardCarousel({ images = [] }) {
                     <img
                       src={image.src}
                       alt={image.alt}
-                      loading="lazy"
                       onError={() =>
                         setFailed((current) => ({ ...current, [image.id]: true }))
                       }
@@ -103,8 +102,8 @@ export default function StackedCardCarousel({ images = [] }) {
         })}
       </div>
 
-      <p className="mt-4 text-center font-hand text-xl text-mutedBrown/80">
-        {String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")} — tap the photo
+      <p className="mt-14 text-center font-hand text-xl text-mutedBrown/80 md:mt-16">
+        {index + 1} / {count} — tap the photo
       </p>
     </div>
   );
