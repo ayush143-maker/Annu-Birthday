@@ -1,61 +1,55 @@
 # Annu Secret Box Birthday
 
-A private, premium birthday memory book for Annu.
+A private, premium, page-based birthday memory book for Annu.
 
-Built with:
+## Stack
 
 - React
 - Vite
 - Tailwind CSS
-- GSAP
+- GSAP (letter line reveal only)
+- Custom SVG icons, doodles, cake, balloons, confetti
 
-## Design direction
+## Experience flow (8 pages, no long vertical scroll)
 
-- Warm ivory, cream, beige, muted brown, subtle sage, soft gold
-- Premium digital scrapbook / memory book
-- Page-based experience, not a long vertical scrolling page
-- SVG icons and ornaments instead of decorative emojis
-- Soft dim-glow typography
-- Emotional, playful, personal, best-friend tone
+1. Opening — beating heart, doodle art, entry button
+2. Annu — stacked card carousel (5 photos, light-blue card backs)
+3. Cake — SVG cake, light candles, make a wish, blow, confetti
+4. Balloons — tap to pop, each balloon owes a compliment, confetti
+5. Memories — horizontal sliding tapped polaroid carousel
+6. Receipt — friendship, itemised (points receipt)
+7. Letter — handwritten letter on taped paper, "to: Annu"
+8. Finale — message, 3:4 tilted taped polaroid, P.S. line, replay
 
-## Local development
+## Navigation
 
-Install dependencies:
+- Top-left: back button
+- Top-right: confetti button
+- Bottom: capsule next button with page counter
+- Swipe left / right on pages (disabled inside carousels)
+- Keyboard arrows on desktop
+
+## Music
+
+Four looped tracks, switched automatically on page change:
+
+- track-1-opening: opening
+- track-2-annu: Annu page
+- track-3-cake: cake + balloons
+- track-4-memories: memories, receipt, letter, finale
+
+Music starts only after the first tap (browser autoplay rule).
+
+## Scripts
 
 ```bash
 npm install
-```
-
-Run development server:
-
-```bash
 npm run dev
-```
-
-Build for production:
-
-```bash
 npm run build
-```
-
-Preview production build:
-
-```bash
 npm run preview
 ```
 
-## Vercel deployment
-
-Vercel should auto-detect Vite.
-
-Recommended settings:
-
-- Framework Preset: Vite
-- Build Command: `npm run build`
-- Output Directory: `dist`
-- Install Command: `npm install`
-
-## Assets to add later
+## Assets
 
 Music:
 
@@ -63,32 +57,47 @@ Music:
 public/music/track-1-opening.mp3
 public/music/track-2-annu.mp3
 public/music/track-3-cake.mp3
+public/music/track-4-memories.mp3
 ```
 
 Annu solo photos:
 
 ```txt
-public/images/annu/annu-hero.jpg
-public/images/annu/annu-1.jpg
-public/images/annu/annu-2.jpg
-public/images/annu/annu-3.jpg
-public/images/annu/annu-4.jpg
+public/images/annu/annu-1.jpg   (3:4)
+public/images/annu/annu-2.jpg   (3:4)
+public/images/annu/annu-3.jpg   (3:4)
+public/images/annu/annu-4.jpg   (3:4)
+public/images/annu/annu-5.jpg   (1:1, cropped to portrait in UI)
 ```
 
 Together photos:
 
 ```txt
-public/images/together/together-hero.jpg
-public/images/together/together-1.jpg
-public/images/together/together-2.jpg
-public/images/together/together-3.jpg
-public/images/together/together-wide.jpg
+public/images/together/together-wide-1.jpg  (16:9)
+public/images/together/together-wide-2.jpg  (16:9)
+public/images/together/together-43.jpg      (4:3)
+public/images/together/together-34-1.jpg    (3:4)
+public/images/together/together-34-2.jpg    (3:4)
 ```
 
-## Important content rules
+Finale photo:
 
-- Sender identity is always Secret Box.
-- Do not reveal private real names anywhere.
-- Do not fake childhood photos.
-- Keep the tone warm, personal, and best-friend coded.
-- Keep the experience page-based and premium.
+```txt
+public/images/finale/finale-34.jpg  (3:4)
+```
+
+## Design rules
+
+- No decorative emojis; SVG icons and doodle art only
+- Warm ivory, cream, beige, cocoa, sage, gold, powder blue
+- Page-based experience, mobile-first
+- Sender identity is always Secret Box
+- No private real names anywhere
+- No fake childhood photos
+
+## Vercel
+
+- Framework Preset: Vite
+- Build Command: npm run build
+- Output Directory: dist
+- Config included in vercel.json
