@@ -1,5 +1,4 @@
-import { siteContent } from "../data/content";
-import { GlowButton, PageLabel } from "../components/ui.jsx";
+import { GlowButton } from "../components/ui.jsx";
 import { IconArrowRight, IconHeartSolid } from "../components/icons.jsx";
 import {
   DoodleArrow,
@@ -17,9 +16,7 @@ export default function OpeningPage({ page, hasEntered, onEnter, onNext }) {
 
         <IconHeartSolid className="mx-auto h-12 w-12 text-rose animate-beat md:h-14 md:w-14" />
 
-        <PageLabel className="mt-7">{page.label}</PageLabel>
-
-        <h1 className="display-heading text-glow mt-4 text-5xl leading-[1.06] md:text-7xl">
+        <h1 className="display-heading text-glow mt-6 text-5xl leading-[1.06] md:text-7xl">
           {page.title}
         </h1>
 
@@ -30,17 +27,13 @@ export default function OpeningPage({ page, hasEntered, onEnter, onNext }) {
         </p>
 
         {!hasEntered ? (
-          <div className="mt-9 flex flex-col items-center gap-3">
+          <div className="mt-9 flex justify-center">
             <GlowButton
               onClick={onEnter}
               icon={<IconArrowRight className="h-4 w-4" />}
             >
               {page.cta}
             </GlowButton>
-
-            <p className="text-xs uppercase tracking-widest2 text-mutedBrown/70">
-              {siteContent.ui.openingHint}
-            </p>
           </div>
         ) : (
           <div className="mt-9 flex flex-col items-center gap-2">
