@@ -3,8 +3,7 @@ import { siteContent } from "../data/content";
 import { gsap } from "../utils/gsap";
 import HandwrittenText from "./HandwrittenText.jsx";
 import TapeStrip from "./TapeStrip.jsx";
-import { IconLock } from "./icons.jsx";
-import { PageLabel } from "./ui.jsx";
+import { DoodleHeart, DoodleUnderline } from "./doodles.jsx";
 
 export default function LetterPaper() {
   const ref = useRef(null);
@@ -44,7 +43,7 @@ export default function LetterPaper() {
   return (
     <article
       ref={ref}
-      className="paper-card relative mx-auto w-full max-w-3xl rotate-[-0.6deg] px-6 pb-8 pt-10 md:px-10 md:pb-12 md:pt-12"
+      className="paper-card relative mx-auto w-full max-w-3xl rotate-[-0.6deg] px-6 pb-7 pt-8 md:px-10 md:pb-10 md:pt-10"
     >
       <TapeStrip className="-top-3 left-8 rotate-[-8deg]" />
       <TapeStrip className="-top-4 right-10 rotate-[6deg]" />
@@ -54,23 +53,13 @@ export default function LetterPaper() {
         className="pointer-events-none absolute inset-x-10 -top-8 h-16 rounded-full bg-gold/10 blur-2xl"
       />
 
-      <header className="flex items-end justify-between gap-4 border-b border-cocoa/10 pb-4">
-        <div>
-          <PageLabel>From</PageLabel>
-          <p className="mt-1 font-hand text-2xl text-mutedBrown">
-            {siteContent.brand.sender}
-          </p>
-        </div>
+      <p className="font-hand text-2xl text-mutedBrown md:text-3xl">
+        {siteContent.letter.toLabel}
+      </p>
 
-        <div className="text-right">
-          <PageLabel>To</PageLabel>
-          <p className="mt-1 font-hand text-2xl text-mutedBrown">
-            {siteContent.brand.recipient}
-          </p>
-        </div>
-      </header>
+      <DoodleUnderline className="mt-1 h-2.5 w-24 text-gold/60" />
 
-      <div className="mt-6 max-h-[46vh] space-y-4 overflow-y-auto pr-2 [scrollbar-width:none] md:max-h-[52vh] [&::-webkit-scrollbar]:hidden">
+      <div className="no-scrollbar mt-5 max-h-[44vh] space-y-4 overflow-y-auto pr-2 md:max-h-[52vh]">
         <HandwrittenText className="text-2xl md:text-3xl">
           {siteContent.letter.greeting},
         </HandwrittenText>
@@ -81,7 +70,7 @@ export default function LetterPaper() {
 
         <div className="flex items-center justify-end gap-2 pt-2">
           <HandwrittenText>{siteContent.letter.signoff}</HandwrittenText>
-          <IconLock className="svg-glow h-4 w-4 text-gold" />
+          <DoodleHeart className="h-4 w-4 text-rose" />
         </div>
       </div>
     </article>
