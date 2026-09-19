@@ -1,5 +1,4 @@
 import { siteContent } from "../data/content";
-import { PageLabel } from "../components/ui.jsx";
 import TapeStrip from "../components/TapeStrip.jsx";
 import {
   IconBell,
@@ -25,9 +24,7 @@ export default function ReceiptPage({ page }) {
   return (
     <div className="mx-auto flex h-full w-full max-w-3xl flex-col items-center justify-center gap-4 md:gap-6">
       <header className="text-center">
-        <PageLabel>{page.label}</PageLabel>
-
-        <h2 className="display-heading text-glow mt-2 text-3xl leading-tight md:text-6xl">
+        <h2 className="display-heading text-glow text-3xl leading-tight md:text-6xl">
           Some people just make{" "}
           <span className="rounded-[10px] bg-powder px-2 italic">ordinary days</span>{" "}
           <span className="italic text-rose">better.</span>
