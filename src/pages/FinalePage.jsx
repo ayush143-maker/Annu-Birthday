@@ -1,11 +1,68 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { siteContent } from "../data/content";
 import { IconLock } from "../components/icons.jsx";
 import { DoodleStar, DoodleUnderline } from "../components/doodles.jsx";
 import PolaroidFrame from "../components/PolaroidFrame.jsx";
 
 export default function FinalePage({ page, onReplay }) {
-  const [logoFailed, setLogoFailed] = useState(false);
+  const [logoSrc, setLogoSrc] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const img = new Image();
+    img.src = "/images/pixel-studio.png";
+
+    img.onload = () => {
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+
+          let alpha = 1;
+          if (lum >= 235) {
+            alpha = 0;
+          } else if (lum > 205) {
+            alpha = (235 - lum) / 30;
+          }
+
+          data[i + 3] = Math.round(data[i + 3] * alpha);
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+
+        if (!cancelled) {
+          setLogoSrc(canvas.toDataURL("image/png"));
+        }
+      } catch {
+        if (!cancelled) {
+          setLogoSrc("/images/pixel-studio.png");
+        }
+      }
+    };
+
+    img.onerror = () => {
+      if (!cancelled) {
+        setLogoSrc(null);
+      }
+    };
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className="relative mx-auto flex h-full w-full max-w-4xl flex-col items-center justify-center gap-3 text-center md:gap-5">
@@ -40,12 +97,11 @@ export default function FinalePage({ page, onReplay }) {
       </p>
 
       <div className="mt-3 flex flex-col items-center gap-1 md:mt-5">
-        {!logoFailed ? (
+        {logoSrc ? (
           <img
-            src="/images/pixel-studio.png"
+            src={logoSrc}
             alt="Pixel Studio"
-            onError={() => setLogoFailed(true)}
-            className="h-9 w-9 object-contain opacity-80 mix-blend-multiply md:h-10 md:w-10"
+            className="h-9 w-9 object-contain opacity-90 md:h-10 md:w-10"
           />
         ) : null}
 
