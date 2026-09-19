@@ -53,6 +53,11 @@ export default function App() {
   const { page } = flow;
 
   useEffect(() => {
+    audio.preloadAll();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     const sources = [
       ...siteContent.annu.images,
       ...siteContent.memories.images,
@@ -86,16 +91,30 @@ export default function App() {
       return;
     }
 
+    const target = flow.pages[flow.pageIndex + 1];
+
     flow.next();
-  }, [flow, hasEntered]);
+
+    if (target && target.musicTrack) {
+      audio.playTrack(target.musicTrack);
+    }
+  }, [audio, flow, hasEntered]);
 
   const handlePrev = useCallback(() => {
     if (!hasEntered || !flow.hasPrev) {
       return;
     }
 
+    const target = flow.pages[flow.pageIndex - 1];
+
     flow.prev();
-  }, [flow, hasEntered]);
+
+    if (target && target.musicTrack) {
+      audio.playTrack(target.musicTrack);
+    } else {
+      audio.stopAll();
+    }
+  }, [audio, flow, hasEntered]);
 
   const handleReplay = useCallback(() => {
     audio.stopAll();
@@ -103,16 +122,6 @@ export default function App() {
     setConfettiBurst(0);
     flow.replay();
   }, [audio, flow]);
-
-  useEffect(() => {
-    if (!hasEntered) {
-      return;
-    }
-
-    if (page.musicTrack) {
-      audio.playTrack(page.musicTrack);
-    }
-  }, [audio, hasEntered, page.id, page.musicTrack]);
 
   useEffect(() => {
     const onKeyDown = (event) => {
