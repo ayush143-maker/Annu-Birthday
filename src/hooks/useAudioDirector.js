@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { siteContent } from "../data/content";
 
 const DEFAULT_VOLUME = 0.9;
-const FADE_DURATION = 650;
+const FADE_MS = 420;
+const FADE_STEPS = 6;
 
 export function useAudioDirector() {
   const playersRef = useRef(new Map());
-  const fadesRef = useRef(new Map());
+  const timersRef = useRef(new Map());
   const attemptRef = useRef({});
   const mutedRef = useRef(false);
   const currentTrackIdRef = useRef(null);
@@ -16,18 +17,18 @@ export function useAudioDirector() {
   const [isPlaying, setIsPlayingState] = useState(false);
   const [isMuted, setIsMutedState] = useState(false);
 
-  const setCurrentTrackId = (trackId) => {
-    currentTrackIdRef.current = trackId;
-    setCurrentTrackIdState(trackId);
+  const setCurrentTrackId = (id) => {
+    currentTrackIdRef.current = id;
+    setCurrentTrackIdState(id);
   };
 
-  const setIsPlaying = (playing) => {
-    isPlayingRef.current = playing;
-    setIsPlayingState(playing);
+  const setIsPlaying = (value) => {
+    isPlayingRef.current = value;
+    setIsPlayingState(value);
   };
 
-  const getTrack = (trackId) => {
-    return siteContent.music.tracks.find((track) => track.id === trackId) || null;
+  const getTrack = (id) => {
+    return siteContent.music.tracks.find((track) => track.id === id) || null;
   };
 
   const srcListFor = (track) => {
@@ -37,12 +38,12 @@ export function useAudioDirector() {
     return track.src ? [track.src] : [];
   };
 
-  const clearFade = (trackId) => {
-    const frame = fadesRef.current.get(trackId);
-    if (frame) {
-      cancelAnimationFrame(frame);
+  const clearTimer = (id) => {
+    const timer = timersRef.current.get(id);
+    if (timer) {
+      clearInterval(timer);
     }
-    fadesRef.current.delete(trackId);
+    timersRef.current.delete(id);
   };
 
   const createPlayer = (src) => {
@@ -55,8 +56,8 @@ export function useAudioDirector() {
     return player;
   };
 
-  const ensurePlayer = (trackId, src) => {
-    const existing = playersRef.current.get(trackId);
+  const ensurePlayer = (id, src) => {
+    const existing = playersRef.current.get(id);
 
     if (existing && existing.dataset.src === src) {
       return existing;
@@ -67,8 +68,108 @@ export function useAudioDirector() {
     }
 
     const player = createPlayer(src);
-    playersRef.current.set(trackId, player);
+    playersRef.current.set(id, player);
     return player;
+  };
+
+  const ramp = (id, from, to, done) => {
+    const player = playersRef.current.get(id);
+    if (!player) {
+      return;
+    }
+
+    clearTimer(id);
+
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step += 1;
+      const progress = step / FADE_STEPS;
+      player.volume = Math.max(0, Math.min(1, from + (to - from) * progress));
+
+      if (step >= FADE_STEPS) {
+        clearTimer(id);
+        if (done) {
+          done();
+        }
+      }
+    }, FADE_MS / FADE_STEPS);
+
+    timersRef.current.set(id, timer);
+  };
+
+  const fadeOut = (id, { pauseAfter = false } = {}) => {
+    const player = playersRef.current.get(id);
+    if (!player) {
+      return;
+    }
+
+    ramp(id, player.volume, 0, () => {
+      if (pauseAfter) {
+        player.pause();
+      }
+    });
+  };
+
+  const startPlay = (id, targetVolume) => {
+    const track = getTrack(id);
+    if (!track) {
+      return;
+    }
+
+    const srcs = srcListFor(track);
+    if (!srcs.length) {
+      return;
+    }
+
+    const attempt = Math.min(attemptRef.current[id] || 0, srcs.length - 1);
+    const player = ensurePlayer(id, srcs[attempt]);
+
+    clearTimer(id);
+
+    player.muted = mutedRef.current;
+    setCurrentTrackId(id);
+    setIsPlaying(true);
+
+    const target = Math.min(Math.max(targetVolume, 0), 1);
+
+    const begin = () => {
+      ramp(id, player.volume, target);
+    };
+
+    const playPromise = player.play();
+
+    if (playPromise && typeof playPromise.then === "function") {
+      playPromise.then(begin).catch((err) => {
+        const name = err && err.name;
+
+        if (name === "NotAllowedError") {
+          setTimeout(() => {
+            if (currentTrackIdRef.current === id) {
+              player.play().then(begin).catch(() => {
+                player.pause();
+                setCurrentTrackId(null);
+                setIsPlaying(false);
+              });
+            }
+          }, 220);
+          return;
+        }
+
+        if (attempt < srcs.length - 1) {
+          attemptRef.current[id] = attempt + 1;
+          playersRef.current.delete(id);
+          startPlay(id, targetVolume);
+        } else {
+          player.pause();
+          setCurrentTrackId(null);
+          setIsPlaying(false);
+          console.warn("[audio] unable to play track:", id, srcs, name);
+        }
+      });
+    } else {
+      begin();
+    }
   };
 
   const preloadAll = () => {
@@ -84,115 +185,36 @@ export function useAudioDirector() {
     });
   };
 
-  const fadeOut = (trackId, { duration = FADE_DURATION, pauseAfter = false } = {}) => {
-    const player = playersRef.current.get(trackId);
-    if (!player) {
+  const playTrack = (id) => {
+    if (!id) {
       return;
     }
 
-    clearFade(trackId);
-
-    const start = performance.now();
-    const from = player.volume;
-
-    const step = (now) => {
-      const progress = Math.min(1, (now - start) / duration);
-      player.volume = Math.max(0, from * (1 - progress));
-
-      if (progress < 1) {
-        fadesRef.current.set(trackId, requestAnimationFrame(step));
-      } else {
-        if (pauseAfter) {
-          player.pause();
-        }
-        clearFade(trackId);
-      }
-    };
-
-    fadesRef.current.set(trackId, requestAnimationFrame(step));
-  };
-
-  const fadeIn = (trackId, { duration = FADE_DURATION, targetVolume = DEFAULT_VOLUME } = {}) => {
-    const track = getTrack(trackId);
+    const track = getTrack(id);
     if (!track) {
       return;
     }
 
-    const srcs = srcListFor(track);
-    if (!srcs.length) {
-      return;
-    }
-
-    const attempt = Math.min(attemptRef.current[trackId] || 0, srcs.length - 1);
-    const player = ensurePlayer(trackId, srcs[attempt]);
-
-    clearFade(trackId);
-
-    player.muted = mutedRef.current;
-    setCurrentTrackId(trackId);
-    setIsPlaying(true);
-
-    const target = Math.min(Math.max(targetVolume, 0), 1);
-    const playPromise = player.play();
-
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {
-        if (attempt < srcs.length - 1) {
-          attemptRef.current[trackId] = attempt + 1;
-          playersRef.current.delete(trackId);
-          fadeIn(trackId, { duration, targetVolume });
-        } else {
-          player.pause();
-          setCurrentTrackId(null);
-          setIsPlaying(false);
-          console.warn("[audio] unable to play track:", trackId, srcs);
-        }
-      });
-    }
-
-    const start = performance.now();
-    const from = player.volume;
-
-    const step = (now) => {
-      const progress = Math.min(1, (now - start) / duration);
-      player.volume = from + (target - from) * progress;
-
-      if (progress < 1) {
-        fadesRef.current.set(trackId, requestAnimationFrame(step));
-      } else {
-        clearFade(trackId);
+    if (currentTrackIdRef.current === id && isPlayingRef.current) {
+      const player = playersRef.current.get(id);
+      if (player && player.paused) {
+        player.play().catch(() => {});
       }
-    };
-
-    fadesRef.current.set(trackId, requestAnimationFrame(step));
-  };
-
-  const playTrack = (trackId) => {
-    if (!trackId) {
-      return;
-    }
-
-    const track = getTrack(trackId);
-    if (!track) {
-      return;
-    }
-
-    if (currentTrackIdRef.current === trackId && isPlayingRef.current) {
       return;
     }
 
     playersRef.current.forEach((player, existingId) => {
-      if (existingId !== trackId && !player.paused) {
+      if (existingId !== id && !player.paused) {
         fadeOut(existingId, { pauseAfter: true });
       }
     });
 
-    fadeIn(trackId, { targetVolume: track.volume ?? DEFAULT_VOLUME });
+    startPlay(id, track.volume ?? DEFAULT_VOLUME);
   };
 
   const stopAll = () => {
-    playersRef.current.forEach((player, trackId) => {
-      fadeOut(trackId, { pauseAfter: true });
+    playersRef.current.forEach((player, id) => {
+      fadeOut(id, { pauseAfter: true });
     });
 
     setCurrentTrackId(null);
@@ -210,17 +232,39 @@ export function useAudioDirector() {
   };
 
   useEffect(() => {
+    const resumeIfStuck = () => {
+      const id = currentTrackIdRef.current;
+      if (!id || !isPlayingRef.current) {
+        return;
+      }
+
+      const player = playersRef.current.get(id);
+      if (player && player.paused) {
+        player
+          .play()
+          .then(() => {
+            ramp(id, player.volume, player.volume || DEFAULT_VOLUME);
+          })
+          .catch(() => {});
+      }
+    };
+
+    window.addEventListener("pointerdown", resumeIfStuck, true);
+    window.addEventListener("keydown", resumeIfStuck, true);
+
     return () => {
-      fadesRef.current.forEach((frame) => {
-        cancelAnimationFrame(frame);
-      });
+      window.removeEventListener("pointerdown", resumeIfStuck, true);
+      window.removeEventListener("keydown", resumeIfStuck, true);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-      playersRef.current.forEach((player) => {
-        player.pause();
-      });
-
+  useEffect(() => {
+    return () => {
+      timersRef.current.forEach((timer) => clearInterval(timer));
+      playersRef.current.forEach((player) => player.pause());
       playersRef.current.clear();
-      fadesRef.current.clear();
+      timersRef.current.clear();
     };
   }, []);
 
