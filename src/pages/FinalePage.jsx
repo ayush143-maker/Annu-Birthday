@@ -1,44 +1,43 @@
 import { siteContent } from "../data/content";
-import { Hairline, PageLabel } from "../components/ui.jsx";
-import FinalOrnament from "../components/FinalOrnament.jsx";
-import ReplayButton from "../components/ReplayButton.jsx";
+import { PageLabel } from "../components/ui.jsx";
 import { IconLock } from "../components/icons.jsx";
+import { DoodleStar, DoodleUnderline } from "../components/doodles.jsx";
+import PolaroidFrame from "../components/PolaroidFrame.jsx";
 
 export default function FinalePage({ page, onReplay }) {
   return (
-    <div className="relative mx-auto w-full max-w-4xl text-center">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -inset-16 rounded-[60px] bg-gold/10 blur-3xl animate-glowPulse"
+    <div className="relative mx-auto flex h-full w-full max-w-4xl flex-col items-center justify-center gap-3 text-center md:gap-5">
+      <DoodleStar className="absolute left-[8%] top-[12%] h-5 w-5 text-sage/60 animate-floatSoft" />
+      <DoodleStar className="absolute bottom-[16%] right-[10%] h-6 w-6 text-gold/60 animate-floatSoft" />
+
+      <PageLabel>{page.label}</PageLabel>
+
+      <h2 className="display-heading text-glow text-4xl leading-[1.05] md:text-6xl">
+        {page.title}
+      </h2>
+
+      <div className="flex items-center justify-center gap-2">
+        <p className="font-hand text-xl text-mutedBrown md:text-2xl">
+          {page.subtitle}
+        </p>
+        <IconLock className="h-4 w-4 text-gold" />
+      </div>
+
+      <PolaroidFrame
+        image={siteContent.finale.photo}
+        ratioClass="aspect-[3/4]"
+        className="mt-1 w-[36vw] max-w-[180px] rotate-[2.5deg] md:max-w-[220px] md:w-[220px]"
       />
 
-      <div className="relative">
-        <FinalOrnament className="mx-auto h-16 w-16 md:h-20 md:w-20" />
+      <p className="font-hand text-xl text-mutedBrown md:text-2xl">
+        {siteContent.finale.extraLine}
+      </p>
 
-        <PageLabel className="mt-8">{page.label}</PageLabel>
+      <DoodleUnderline className="h-2.5 w-28 text-gold/60" />
 
-        <h2 className="display-heading text-glow mt-5 text-5xl leading-[1.05] md:text-7xl">
-          {page.title}
-        </h2>
-
-        <div className="mt-6 flex items-center justify-center gap-2">
-          <p className="font-hand text-2xl text-mutedBrown md:text-3xl">
-            {page.subtitle}
-          </p>
-
-          <IconLock className="svg-glow h-4 w-4 text-gold" />
-        </div>
-
-        <Hairline className="mx-auto mt-8 max-w-[160px]" />
-
-        <p className="mt-6 font-hand text-xl text-mutedBrown md:text-2xl">
-          {siteContent.finale.extraLine}
-        </p>
-
-        <div className="mt-10 flex justify-center">
-          <ReplayButton onClick={onReplay} />
-        </div>
-      </div>
+      <p className="font-hand text-lg text-mutedBrown/75 md:text-xl">
+        {siteContent.finale.ps}
+      </p>
     </div>
   );
 }
