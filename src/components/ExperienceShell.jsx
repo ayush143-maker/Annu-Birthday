@@ -99,7 +99,7 @@ export default function ExperienceShell({
         <section
           key={flow.page.id}
           data-page-shell
-          className="page-enter relative flex h-full min-h-0 items-center justify-center px-4 pb-24 pt-16 md:px-10"
+          className="page-enter relative flex h-full min-h-0 items-center justify-center px-4 pb-24 pt-14 md:px-10"
         >
           {children}
         </section>
@@ -125,9 +125,8 @@ export default function ExperienceShell({
                 {siteContent.ui.nextLabel}
               </span>
 
-              <span className="font-body text-[10px] font-medium tracking-[0.22em] text-ivory/55">
-                {String(flow.pageIndex + 1).padStart(2, "0")}/
-                {String(flow.pageCount).padStart(2, "0")}
+              <span className="font-hand text-lg leading-none text-ivory/70 md:text-xl">
+                {flow.pageIndex + 1}/{flow.pageCount}
               </span>
 
               <IconArrowRight className="h-4 w-4" />
