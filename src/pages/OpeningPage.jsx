@@ -1,40 +1,55 @@
 import { siteContent } from "../data/content";
-import { IconArrowRight, IconSparkle } from "../components/icons.jsx";
 import { GlowButton, PageLabel } from "../components/ui.jsx";
+import { IconArrowRight, IconHeartSolid } from "../components/icons.jsx";
+import {
+  DoodleArrow,
+  DoodleSquiggle,
+  DoodleStar,
+  DoodleUnderline,
+} from "../components/doodles.jsx";
 
 export default function OpeningPage({ page, hasEntered, onEnter, onNext }) {
   return (
     <div className="relative mx-auto w-full max-w-4xl text-center">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -inset-16 rounded-[60px] bg-gold/10 blur-3xl animate-glowPulse"
-      />
-
       <div className="relative">
-        <IconSparkle className="svg-glow mx-auto h-14 w-14 text-gold animate-floatSoft" />
+        <DoodleStar className="absolute -right-1 top-6 h-6 w-6 text-sage/70 animate-floatSoft md:right-8" />
+        <DoodleSquiggle className="absolute -left-1 top-24 h-3 w-14 text-rose/60 md:left-10" />
 
-        <PageLabel className="mt-8">{page.label}</PageLabel>
+        <IconHeartSolid className="mx-auto h-12 w-12 text-rose animate-beat md:h-14 md:w-14" />
 
-        <h1 className="display-heading text-glow mt-5 text-5xl leading-[1.08] md:text-7xl">
+        <PageLabel className="mt-7">{page.label}</PageLabel>
+
+        <h1 className="display-heading text-glow mt-4 text-5xl leading-[1.06] md:text-7xl">
           {page.title}
         </h1>
 
-        <p className="mt-5 font-hand text-2xl text-mutedBrown md:text-3xl">
+        <DoodleUnderline className="mx-auto mt-3 h-3 w-40 text-gold/70 md:w-56" />
+
+        <p className="mt-4 font-hand text-2xl text-mutedBrown md:text-3xl">
           {page.subtitle}
         </p>
 
-        <div className="mt-10 flex justify-center">
-          <GlowButton
-            onClick={hasEntered ? onNext : onEnter}
-            icon={<IconArrowRight className="h-4 w-4" />}
-          >
-            {hasEntered ? "Continue the memory book" : page.cta}
-          </GlowButton>
-        </div>
+        {!hasEntered ? (
+          <div className="mt-9 flex flex-col items-center gap-3">
+            <GlowButton
+              onClick={onEnter}
+              icon={<IconArrowRight className="h-4 w-4" />}
+            >
+              {page.cta}
+            </GlowButton>
 
-        <p className="mt-7 text-xs uppercase tracking-widest2 text-mutedBrown/70">
-          {siteContent.ui.openingHint}
-        </p>
+            <p className="text-xs uppercase tracking-widest2 text-mutedBrown/70">
+              {siteContent.ui.openingHint}
+            </p>
+          </div>
+        ) : (
+          <div className="mt-9 flex flex-col items-center gap-2">
+            <DoodleArrow className="h-8 w-8 rotate-[16deg] text-mutedBrown/60" />
+            <p className="font-hand text-xl text-mutedBrown/80">
+              the capsule below takes you forward
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
