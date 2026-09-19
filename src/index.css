@@ -28,7 +28,11 @@
 
 @layer components {
   .shell-screen {
-    @apply relative flex h-[100dvh] min-h-screen w-full flex-col overflow-hidden;
+    @apply relative flex w-full flex-col overflow-hidden;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   .page-label {
@@ -73,11 +77,13 @@
   }
 
   .safe-top {
+    padding-top: 0.9rem;
     padding-top: max(0.9rem, env(safe-area-inset-top));
   }
 
   .safe-bottom {
-    padding-bottom: max(0.9rem, env(safe-area-inset-bottom));
+    padding-bottom: 1.15rem;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1.15rem);
   }
 
   .page-enter {
@@ -85,7 +91,7 @@
   }
 
   .capsule-next {
-    @apply inline-flex items-center gap-3 rounded-full border border-gold/40 bg-cocoa px-7 py-3.5 text-xs font-medium uppercase tracking-widest2 text-ivory shadow-paper transition active:scale-[0.97];
+    @apply inline-flex items-center gap-2.5 rounded-full border border-gold/40 bg-cocoa/95 px-6 py-2.5 text-ivory shadow-paper backdrop-blur-[1px] transition active:scale-[0.97];
   }
 
   .snap-carousel {
