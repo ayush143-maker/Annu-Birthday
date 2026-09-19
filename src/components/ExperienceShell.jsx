@@ -105,12 +105,14 @@ export default function ExperienceShell({
         </section>
       </main>
 
-      <div className="safe-bottom absolute inset-x-0 bottom-0 z-30 flex justify-center pb-1">
+      <div className="safe-bottom absolute inset-x-0 bottom-0 z-30 flex justify-center">
         {hasEntered ? (
           isFinale ? (
             <button type="button" onClick={onReplay} className="capsule-next">
               <IconReplay className="h-4 w-4" />
-              {siteContent.finale.replayCta}
+              <span className="font-hand text-xl leading-none md:text-2xl">
+                {siteContent.finale.replayCta}
+              </span>
             </button>
           ) : (
             <button
@@ -119,11 +121,15 @@ export default function ExperienceShell({
               disabled={!flow.hasNext}
               className="capsule-next disabled:opacity-40"
             >
-              <span>{siteContent.ui.nextLabel}</span>
-              <span className="text-[10px] tracking-[0.18em] text-ivory/60">
-                {String(flow.pageIndex + 1).padStart(2, "0")} /{" "}
+              <span className="font-hand text-xl leading-none md:text-2xl">
+                {siteContent.ui.nextLabel}
+              </span>
+
+              <span className="font-body text-[10px] font-medium tracking-[0.22em] text-ivory/55">
+                {String(flow.pageIndex + 1).padStart(2, "0")}/
                 {String(flow.pageCount).padStart(2, "0")}
               </span>
+
               <IconArrowRight className="h-4 w-4" />
             </button>
           )
