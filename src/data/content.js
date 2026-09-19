@@ -167,14 +167,14 @@ export const siteContent = {
 
   receipt: {
     title: "Friendship Receipt",
-    meta: "customer: Annu ✦ since childhood ✦ verified best friend",
+    meta: "Annu ✦ since childhood  verified bestie",
     items: [
       { icon: "star", label: "unlimited hype", value: "∞" },
-      { icon: "cup", label: "snacks, split 60/40 (your 60)", value: "priceless" },
-      { icon: "note", label: "playlists traded, zero skips", value: "10/10" },
-      { icon: "bell", label: "emergency snack response", value: "7 min avg" },
+      { icon: "cup", label: "snack splits (your 60)", value: "priceless" },
+      { icon: "note", label: "playlists, zero skips", value: "10/10" },
+      { icon: "bell", label: "snack response time", value: "7 min" },
       { icon: "lock", label: "secret-keeping", value: "vault-grade" },
-      { icon: "phone", label: "bad-day rescue line", value: "always picks up" },
+      { icon: "phone", label: "bad-day rescue", value: "always picks up" },
     ],
     totalLabel: "TOTAL — one great friend",
     totalValue: "paid in full (in snacks)",
@@ -192,7 +192,6 @@ export const siteContent = {
       "I’m really missing all our gossips, the three of us, and all those little moments we shared.",
       "Loveee you so muchhh babyyyy.",
       "I really miss youuu babyyyy.",
-      "No dear, you shared this letter.",
     ],
     signoff: "— Secret Box",
   },
