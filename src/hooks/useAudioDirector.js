@@ -71,6 +71,19 @@ export function useAudioDirector() {
     return player;
   };
 
+  const preloadAll = () => {
+    siteContent.music.tracks.forEach((track) => {
+      const srcs = srcListFor(track);
+      if (!srcs.length) {
+        return;
+      }
+
+      const idx = Math.min(attemptRef.current[track.id] || 0, srcs.length - 1);
+      const player = ensurePlayer(track.id, srcs[idx]);
+      player.load();
+    });
+  };
+
   const fadeOut = (trackId, { duration = FADE_DURATION, pauseAfter = false } = {}) => {
     const player = playersRef.current.get(trackId);
     if (!player) {
@@ -221,5 +234,6 @@ export function useAudioDirector() {
     playTrack,
     stopAll,
     toggleMute,
+    preloadAll,
   };
 }
